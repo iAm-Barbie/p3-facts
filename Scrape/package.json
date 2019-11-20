@@ -1,0 +1,19 @@
+{
+  "name": "Scrape",
+  "version": "1.0.0",
+  "description": "All the News That's Fit to Scrape",
+  "main": "Scraper.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "mongoose": "^5.7.12",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
