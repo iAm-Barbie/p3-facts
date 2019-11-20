@@ -1,81 +1,29 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
+const request = require('request');
+const cheerio = require('cheerio');
 var mongoose = require("mongoose");
 
-var axios = require("axios");
-var cheerio = require("cheerio");
+const db = require('./models');
 
-var db = require("./models");
+mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
 
-var app = express();
+request("http://www.sixprizes.com/", (error, response, html)=>{
+  if(!error && response.statusCode == 200){
+    const $ = cheerio.load(html);
+    $("a.entry-title-link").each(function(i, element) {
+      var result = {};
 
-app.use(logger("dev"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+      result.title = $(this).text();
+      result.link = $(this).attr("href");
 
-mongoose.connect("mongodb://localhost/test", { useNewUrlParser: true });
-
-app.get("/scrape", function(req, res) {
-    axios.get("http://www.sixprizes.com/").then(function(response) {
-      var $ = cheerio.load(response.data);
-  
-      $("a.entry-title-link").each(function(i, element) {
-        var result = {};
-  
-        result.title = $(this)
-          
-          .text();
-        result.link = $(this)
-          
-          .attr("href");
-  
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            return res.json(err);
-          });
-      });
-  
-      res.send("Scrape Complete");
+      // console.log(result.link)
+      db.Article.create(result)
+      .then(function(dbArticle){
+        console.log(dbArticle);
+      })
+      .catch(function(err){
+        return response.json(err);
+      })
     });
-  });
-  
-  
-  app.get("/articles", function(req, res) {
-    db.Article.find({})
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  });
-  
-  app.get("/articles/:id", function(req, res) {
-    db.Article.findOne({ _id: req.params.id })
-      .populate("note")
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  });
-  
-  app.post("/articles/:id", function(req, res) {
-    db.Note.create(req.body)
-      .then(function(dbNote) {
-        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-      })
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  });
-  
-  
+  }
+})
+

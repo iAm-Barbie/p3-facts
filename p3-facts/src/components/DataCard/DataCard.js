@@ -1,9 +1,13 @@
 import React from 'react';
-import { Container, Row, Col} from "reactstrap"; 
+import { Container, Row, Col, DataCard} from "reactstrap"; 
 
 function DataCard() {
     return (
-     <div></div>
+    <Container>
+      <Row>
+
+      </Row>
+    </Container>
     );
   }
   

@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import router from './Routes'
 import { Container, Row, Col} from "reactstrap"; 
 import DataCard from './components/DataCard/DataCard';
 import NavBarMain from './components/NavBar/Navbar';
