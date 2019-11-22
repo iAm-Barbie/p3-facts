@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const ScraperRoutes= express.Router();
 const PORT = 4000
-
+const db = require ("./models")
 let Scraper = require('./Scraper')
 
 app.use(cors());
@@ -67,6 +67,13 @@ ScraperRoutes.route('/update/:id').post(function(req, res){
 });
 
 app.use('/Scraper', ScraperRoutes);
+
+app.use("/scrape", function(req,res){
+    db.Article.find().then(data => {res.json(data)})
+
+})
+
+
 
 app.listen(PORT, function(){
     console.log("Server is Running on Port " + PORT)

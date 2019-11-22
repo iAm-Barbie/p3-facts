@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import router from "./Routes";
 import { Container, Row, Col, Jumbotron, Card, Button, CardFooter } from "reactstrap";
@@ -7,7 +7,29 @@ import NavBarMain from "./components/NavBar/Navbar";
 import ScrapeButton from "./components/ScrapeButton/ScrapeButton";
 import "./App.css";
 
-function App() {
+
+
+
+
+class App extends Component {
+// new code
+constructor(props) {
+  super(props);
+  this.state = {apiResponse: ""};
+}
+
+callAPI(){
+  fetch("http://localhost:4000/scrape")
+  .then(res => res.text())
+  .then(res => this.setState({ apiResponse: res}));
+}
+
+componentWillMount(){
+  this.callAPI();
+}
+
+// end code
+render() {
   return (
     <>
     <div style={{ backgroundColor: "black" }}>
@@ -23,7 +45,8 @@ function App() {
 
 <Jumbotron>
 <h1 >Articles Column!</h1>
-<p>We can put articles in this box 
+<p classname =" App-intro">;{this.state.apiResponse}
+
 </p></Jumbotron> 
 <div>
 <Card body>This is some text within a card body.</Card>
@@ -41,6 +64,7 @@ function App() {
   
 </>
   );
+}
 }
 
 export default App;
