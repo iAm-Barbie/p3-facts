@@ -34,10 +34,7 @@
     "google-oAuth2",
     "google-oAuth"
   ],
-  "author": {
-    "name": "Anthony Grove",
-    "email": "anthony@th3legend.com"
-  },
+  "author": "Anthony Grove <anthony@th3legend.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/anthonyjgrove/react-google-login/issues"
