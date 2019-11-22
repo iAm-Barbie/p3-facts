@@ -1,7 +1,24 @@
 const request = require('request');
 const cheerio = require('cheerio');
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
+let Scraper = new Schema({
+  Scraper_description: {
+    type: String
+  },
+  Scraper_responsible:{
+    type: String
+  },
+  Scraper_priority:{
+    type: String
+  },
+  Scraper_completed: {
+    type:Boolean
+  }
+})
+
+module.exports = mongoose.model('Scraper', Scraper);
 const db = require('./models');
 
 mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
