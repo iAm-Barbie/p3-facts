@@ -5,6 +5,8 @@
   "main": "Scraper.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "mongoose": "^5.7.12",
     "request": "^2.88.0"
   },
