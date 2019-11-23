@@ -26,11 +26,22 @@ mongoose.connect("mongodb://localhost/scraper", { useNewUrlParser: true });
 request("http://bizstandardnews.com/", (error, response, html)=>{
   if(!error && response.statusCode == 200){
     const $ = cheerio.load(html);
-    $("h2.entry-title").each(function(i, element) {
+    $("article").each(function(i, element) {
       var result = {};
 
-      result.title = $(this).text();
-      result.link = $(this).children().attr("href");
+      // result.title = $("h2.entry-title").text();
+      // result.link = $(this).children().attr("href");
+      // result.img = $("img").attr("href");
+      // result.div = $("main").attr("href");
+      result.title = $(this)
+          .find("div")
+          .find("img")
+          .find("a")
+          .find("link")
+          .text();
+      result.link = $(this)
+          .find("a")
+          .attr("href");
 
       // console.log(result.link)
       db.Article.create(result)
